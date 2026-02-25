@@ -41,7 +41,7 @@ function Navbar({ onSearch, onCategorySelect }) {
     <>
       <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed w-full top-0 z-50">
         <Link to="/" className="text-2xl font-bold text-gray-800">
-          🛍️ Shopzy
+          🛍️ NovaMart
         </Link>
 
         <input
