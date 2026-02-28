@@ -109,7 +109,7 @@ def create_order(request):
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
-                price=item.products.price
+                price=item.product.price
             )
         #clear the cart
         cart.items.all().delete()

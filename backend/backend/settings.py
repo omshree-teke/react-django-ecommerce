@@ -26,13 +26,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-let=yrluerp)*%89(7572g5j$j+ibq(*jueo*)ypt24)x+ml3@'
-SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-key')
+# SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-key')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    host for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host
+]
 
 
 # Application definition
@@ -160,6 +165,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "http://127.0.0.1:3000",
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     origin for origin in os.getenv(
+#         "CORS_ALLOWED_ORIGINS",
+#         "http://localhost:5173,http://127.0.0.1:5173"
+#     ).split(",") if origin
+# ]
 
 # Or for development only, you can use:
 # CORS_ALLOW_ALL_ORIGINS = True  # Only for development!
@@ -174,6 +185,7 @@ REST_FRAMEWORK={
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.AllowAny',
     ),
+   
 }
 
 SIMPLE_JWT={
