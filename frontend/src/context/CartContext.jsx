@@ -9,7 +9,22 @@ export const CartProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
 
   // fetch cart from backend
+  // const fetchCart = async () => {
+  //   try {
+  //     const res = await authFetch(`${BASEURL}/api/cart/`);
+  //     const data = await res.json();
+  //     setCartItems(data.items || []);
+  //     setTotal(data.total || 0);
+  //   } catch (error) {
+  //     console.error("Error fetching cart:", error);
+  //   }
+  // };
+  // useEffect(()=>{
+  //   fetchCart()
+  // },[]);
   const fetchCart = async () => {
+    const token = getAccessToken();
+    if (!token) return; // ← Add this line!
     try {
       const res = await authFetch(`${BASEURL}/api/cart/`);
       const data = await res.json();
@@ -18,10 +33,8 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
-  };
-  useEffect(()=>{
-    fetchCart()
-  },[]);
+};
+
 
   //Add Product to Cart
  const addToCart = async (productid) => {

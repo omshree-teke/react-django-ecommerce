@@ -14,11 +14,20 @@ function Navbar({ onSearch, onCategorySelect }) {
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const isLoggedIn = !!getAccessToken();
 
+  // useEffect(() => {
+  //   fetch(`${BASEURL}/api/categories/`)
+  //     .then(res => res.json())
+  //     .then(data => setCategories(data))
+  //     .catch(err => console.log(err));
+  // }, []);
   useEffect(() => {
     fetch(`${BASEURL}/api/categories/`)
-      .then(res => res.json())
-      .then(data => setCategories(data))
-      .catch(err => console.log(err));
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => setCategories(data))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleLogout = () => {
@@ -55,15 +64,24 @@ function Navbar({ onSearch, onCategorySelect }) {
         <div className="flex items-center gap-4">
           {!isLoggedIn ? (
             <>
-              <Link to="/login" className="px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors">
+              <Link
+                to="/login"
+                className="px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
+              >
                 Login
               </Link>
-              <Link to="/signup" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+              <Link
+                to="/signup"
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+              >
                 Sign Up
               </Link>
             </>
           ) : (
-            <button onClick={handleLogout} className="px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
+            >
               Logout
             </button>
           )}
@@ -71,7 +89,8 @@ function Navbar({ onSearch, onCategorySelect }) {
           <Link
             to="/cart"
             onClick={() => setActiveCategory(null)}
-            className="relative px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors">
+            className="relative px-4 py-2 text-sm font-medium text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
+          >
             🛒 Cart
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full px-2">
@@ -88,9 +107,11 @@ function Navbar({ onSearch, onCategorySelect }) {
           <button
             onClick={() => handleCategory(null)}
             className={`pb-1 text-sm font-medium whitespace-nowrap transition-colors
-              ${activeCategory === null
-                ? 'text-blue-600 border-b-2 border-blue-600 font-semibold'
-                : 'text-gray-600 hover:text-blue-600'}`}
+              ${
+                activeCategory === null
+                  ? "text-blue-600 border-b-2 border-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-blue-600"
+              }`}
           >
             All
           </button>
@@ -99,9 +120,11 @@ function Navbar({ onSearch, onCategorySelect }) {
               key={cat.id}
               onClick={() => handleCategory(cat.id)}
               className={`pb-1 text-sm font-medium whitespace-nowrap transition-colors
-                ${activeCategory === cat.id
-                  ? 'text-blue-600 border-b-2 border-blue-600 font-semibold'
-                  : 'text-gray-600 hover:text-blue-600'}`}
+                ${
+                  activeCategory === cat.id
+                    ? "text-blue-600 border-b-2 border-blue-600 font-semibold"
+                    : "text-gray-600 hover:text-blue-600"
+                }`}
             >
               {cat.name}
             </button>
