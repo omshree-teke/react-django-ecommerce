@@ -19,18 +19,27 @@ function ProductCard({ product }) {
   return (
     <Link to={`/product/${product.id}`}>
       <div className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform p-3 cursor-pointer">
-        <img
+        {/* <img
           src={`${BASEURL}${product.image}`}
+          alt={product.name}
+          className="w-full h-56 object-cover rounded-lg mb-2"
+        /> */}
+        <img
+          src={
+            product.image?.startsWith("http")
+              ? product.image
+              : `${BASEURL}${product.image}`
+          }
           alt={product.name}
           className="w-full h-56 object-cover rounded-lg mb-2"
         />
 
-        <h2 className="text-gray-800 font-bold text-xl mb-1">
-          {product.name}
-        </h2>
+        <h2 className="text-gray-800 font-bold text-xl mb-1">{product.name}</h2>
 
         <div className="flex items-center justify-between mt-1">
-          <p className="text-green-600 font-semibold text-lg">₹ {product.price}</p>
+          <p className="text-green-600 font-semibold text-lg">
+            ₹ {product.price}
+          </p>
           <button
             onClick={handleAddToCart}
             className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
@@ -38,7 +47,6 @@ function ProductCard({ product }) {
             Add to Cart
           </button>
         </div>
-
       </div>
     </Link>
   );
